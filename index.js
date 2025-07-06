@@ -1,13 +1,19 @@
+require('dotenv').config();
+
 const express = require('express')
-const mongoose = require('mongoose')
 const produkRoutes = require('./routes/produkRoutes')
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 3000;
 
-mongoose.connect('mongodb://localhost:27017/belajarApi')
-.then(()=> console.log('MongoDB connected'))
-.catch(err => console.log(err))
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('MongoDB Atlas connected'))
+  .catch(err => console.error(err));
+
 
 app.use(express.json())
 app.use('/api/produk', produkRoutes);
